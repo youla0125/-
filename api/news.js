@@ -1,4 +1,9 @@
 export default async function handler(req, res) {
+    const clientId = process.env.NAVER_CLIENT_ID || '';
+  const clientSecret = process.env.NAVER_CLIENT_SECRET || '';
+  if (req.query.debug === '1') {
+    return res.status(200).json({ idLength: clientId.length, idHasWhitespace: clientId !== clientId.trim(), secretLength: clientSecret.length, secretHasWhitespace: clientSecret !== clientSecret.trim() });
+  }
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
