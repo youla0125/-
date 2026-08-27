@@ -1,0 +1,6 @@
+{
+  "name": "naver-news-proxy",
+  "version": "1.0.0",
+  "private": true,
+  "description": "네이버 뉴스 검색 API를 안전하게 호출하기 위한 프록시 서버 (Vercel Serverless Functions)"
+}
