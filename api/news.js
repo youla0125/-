@@ -7,7 +7,7 @@ export default async function handler(req, res) {
     return res.status(200).end();
   }
 
-  const { query, display, sort } = req.query;
+  const { query, display, sort, start } = req.query;
 
   if (!query) {
     return res.status(400).json({ error: 'query 파라미터가 필요합니다. 예: /api/news?query=한우' });
@@ -23,7 +23,6 @@ export default async function handler(req, res) {
   }
 
   // ---- 간단한 키워드 기반 긍정/부정/중립 분류 ----
-  // 완벽한 판단은 아니며, 제목+요약에 아래 키워드가 포함되어 있는지로 대략적으로 분류합니다.
   const NEG_KEYWORDS = [
     '조류인플루엔자', 'AI 확진', 'AI확진', '고병원성', '아프리카돼지열병', 'ASF',
     '럼피스킨', '구제역', '살처분', '폐사', '전염병', '의심 신고',
@@ -47,6 +46,7 @@ export default async function handler(req, res) {
     const params = new URLSearchParams({
       query,
       display: display || '10',
+      start: start || '1',
       sort: sort || 'date',
     });
 
