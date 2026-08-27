@@ -1,16 +1,4 @@
 export default async function handler(req, res) {
-  const clientId = process.env.NAVER_CLIENT_ID || '';
-  const clientSecret = process.env.NAVER_CLIENT_SECRET || '';
-
-  if (req.query.debug === '1') {
-    return res.status(200).json({
-      idLength: clientId.length,
-      idHasWhitespace: clientId !== clientId.trim(),
-      secretLength: clientSecret.length,
-      secretHasWhitespace: clientSecret !== clientSecret.trim(),
-    });
-  }
-
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -24,6 +12,9 @@ export default async function handler(req, res) {
   if (!query) {
     return res.status(400).json({ error: 'query 파라미터가 필요합니다. 예: /api/news?query=한우' });
   }
+
+  const clientId = process.env.NAVER_CLIENT_ID;
+  const clientSecret = process.env.NAVER_CLIENT_SECRET;
 
   if (!clientId || !clientSecret) {
     return res.status(500).json({
@@ -39,11 +30,11 @@ export default async function handler(req, res) {
     });
 
     const naverRes = await fetch(
-      `https://openapi.naver.com/v1/search/news.json?${params.toString()}`,
+      `https://naverapihub.apigw.ntruss.com/search/v1/news?${params.toString()}`,
       {
         headers: {
-          'X-Naver-Client-Id': clientId,
-          'X-Naver-Client-Secret': clientSecret,
+          'X-NCP-APIGW-API-KEY-ID': clientId,
+          'X-NCP-APIGW-API-KEY': clientSecret,
         },
       }
     );
